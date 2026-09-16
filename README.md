@@ -11,7 +11,7 @@ A navigation hub for the KLIS-CS GitHub Foundations skills quiz and checkpoint s
 | **CP2** | Feature Branch & Pull Request Workflow | [GitHub-Feature-Branch-Pull-Request-Workflow](https://github.com/KLIS-CS/GitHub-Feature-Branch-Pull-Request-Workflow) |
 | **CP3** | Issues & Project Management | [GitHub-Issues-Projects-Workflow](https://github.com/KLIS-CS/GitHub-Issues-Projects-Workflow) |
 | **CP4** | Local ↔ Remote Mental Model | [KLIS-CS-Git-Local-Remote-Workflow](https://github.com/KLIS-CS/KLIS-CS-Git-Local-Remote-Workflow) |
-| **CP5** | Final Integrated Challenge | [GitHub-Final-Integrated-Challenge](https://github.com/KLIS-CS/GitHub-Final-Integrated-Challenge) |
+| **CP5** | Final Integrated Challenge — Create + Modify + Manage + Debug | [GitHub-Final-Integrated-Challenge](https://github.com/KLIS-CS/GitHub-Final-Integrated-Challenge) |
 
 ## Learning progression
 
@@ -21,7 +21,7 @@ flowchart LR
     CP1 --> CP2["CP2 — Change Safely\nBranch → add → commit → push → PR"]
     CP2 --> CP3["CP3 — Manage Work\nIssue → Project → track"]
     CP3 --> CP4["CP4 — Understand Connections\nLocal ↔ origin ↔ GitHub"]
-    CP4 --> CP5["CP5 — Integrate\nBuild + modify + manage + debug"]
+    CP4 --> CP5["CP5 — Integrate\nCreate + modify + manage + debug"]
 ```
 
 The central design rule is that students must **do real Git/GitHub work**, not only answer terminology questions. The sequence deliberately includes both **creating** repositories and **modifying** repositories.
@@ -33,7 +33,7 @@ The central design rule is that students must **do real Git/GitHub work**, not o
 | **CP2 — Feature Branch & Pull Request** | Can you modify an existing project safely through a feature branch and Pull Request instead of editing `main` directly? |
 | **CP3 — Issues & Projects** | Can you create, organize, and track a unit of development work? |
 | **CP4 — Local ↔ Remote** | Do you understand and use the connection between a local repository and GitHub, including `origin`, `clone`, `push`, `pull`, and local-first vs GitHub-first setup? |
-| **CP5 — Final Integrated Challenge** | Can you combine repository setup, modification, work tracking, Git workflow, Pull Requests, and debugging independently? |
+| **CP5 — Final Integrated Challenge** | Can you create a fresh repository and independently combine setup, local modification, Issue/Project tracking, feature branches, commits, pushes, Pull Requests, and debugging? |
 
 ## Recommended Order
 
@@ -96,9 +96,37 @@ Open CP2
 → teacher grading
 ```
 
-### CP3–CP5
+### CP3 — Manage Work
 
-Each later checkpoint requires real GitHub evidence. Students should perform the requested work rather than only describing commands or concepts.
+Students create and manage real Issue / Project evidence rather than only answering questions about GitHub project management.
+
+### CP4 — Local ↔ Remote
+
+Students execute and explain the local/remote workflow, including the two repository-starting routes and diagnostic commands.
+
+### CP5 — Create + Modify + Integrate from Scratch
+
+CP5 is also intentionally **not** a template-copy task.
+
+```text
+Open CP5 instructions
+→ GitHub: New repository
+→ create cp5-final-integrated-USERNAME
+→ configure README + .gitignore + LICENSE
+→ clone locally
+→ create [CP5] Issue + Project tracking
+→ create cp5-USERNAME feature branch
+→ modify README + create src/index.js
+→ git status → add → commit → push
+→ open PR to main
+→ connect PR to Issue with Closes/Fixes/Resolves #N
+→ complete debugging responses
+→ submit external repository URL to CP5
+→ automatic grading
+→ teacher grading
+```
+
+CP5 therefore retests **creation** and **modification** together instead of allowing students to inherit a prebuilt project.
 
 ## Grading Model
 
@@ -112,11 +140,13 @@ Each later checkpoint requires real GitHub evidence. Students should perform the
 100 points — final score
 ```
 
-CP1 uses a central submission Issue so the grader can inspect the student's **separately created public repository**. CP2–CP5 use the evidence model appropriate to the specific checkpoint.
+CP1 and CP5 use central submission Issues so the grader can inspect the student's **separately created public repository**. CP2–CP4 use the evidence model appropriate to each checkpoint.
 
 ## Teacher Setup
 
 - **Skills Quiz 0:** template exercise.
-- **CP1:** instruction + grading portal. Students create their own repository from scratch; do not direct them to copy CP1 as a template.
+- **CP1:** instruction + grading portal. Students create their own repository from scratch.
 - **CP2:** template exercise for safe modification through branch + PR.
-- **CP3–CP5:** interactive checkpoint repositories with automatic evidence plus teacher review.
+- **CP3:** interactive Issue / Project checkpoint.
+- **CP4:** interactive local ↔ remote checkpoint.
+- **CP5:** instruction + grading portal. Students create a fresh repository from scratch, then complete the full integrated workflow.
