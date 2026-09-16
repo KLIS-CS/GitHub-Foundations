@@ -8,6 +8,8 @@
   <title>KLIS-CS Developer Profile</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="i18n.css">
+  <script src="i18n.js"></script>
 </head>
 <body>
   <main class="shell parent-shell">
@@ -17,7 +19,13 @@
         <h1>Student Developer Profile</h1>
         <p class="subtitle">A parent-friendly view of verified GitHub learning evidence, skill growth, and badges.</p>
       </div>
-      <a class="home-link" href="./">Class dashboard</a>
+      <div class="header-actions">
+        <a class="home-link" href="./">Class dashboard</a>
+        <div class="language-toggle" role="group" aria-label="Language">
+          <button type="button" data-set-language="en" aria-pressed="true">EN</button>
+          <button type="button" data-set-language="zh" aria-pressed="false">中文</button>
+        </div>
+      </div>
     </header>
 
     <section id="app" aria-live="polite">
