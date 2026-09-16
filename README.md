@@ -59,21 +59,33 @@ Open Skills Quiz 0
 
 ### CP1 — Copy Exercise, then work on `main`
 
-CP1 uses **Copy Exercise**, but it does **not** use a feature branch or Pull Request.
+CP1 uses one mother/template repository: `KLIS-CS/GitHub-Repository-Setup`.
+
+[![Copy CP1 Exercise](https://img.shields.io/badge/COPY%20CP1%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=GitHub-Repository-Setup&owner=%40me&name=cp1-repository-setup-YOUR-GITHUB-USERNAME&description=Checkpoint+1:+GitHub+Repository+Setup&visibility=public)
+
+CP1 does **not** use a feature branch or Pull Request.
 
 ```text
-Open CP1
-→ Copy Exercise
+Copy Exercise
 → create cp1-repository-setup-USERNAME in your own account
 → stay on main
-→ replace README.md
+→ create README.md
 → create .gitignore
 → create LICENSE
 → save / push finished files to main
-→ submit repository URL to CP1
-→ teacher sees all three files in the Submission Issue
-→ automatic grading
-→ teacher grading
+→ student's own CP1 — Score Issue shows Automatic /60
+→ Submit CP1 to the mother repository
+→ teacher reviews all three files in the mother repository
+→ teacher enters /manual-grade in the mother repository
+→ Teacher /40 + Final /100 sync back to student's own CP1 — Score Issue
+```
+
+All CP1 system files, workflows, scripts, and instructions live under `.github/`. The student's assessed root files remain visually separate:
+
+```text
+README.md
+.gitignore
+LICENSE
 ```
 
 ### CP2 — Modify an Existing Repository Safely
@@ -135,12 +147,12 @@ Open CP5 instructions
 100 points — final score
 ```
 
-CP1 uses a central submission Issue so the grader and teacher can inspect the student's public exercise copy. The teacher review panel shows direct links and previews for `README.md`, `.gitignore`, and `LICENSE`.
+For CP1, the student sees the automatic score in their own repository. The teacher uses one central Submission Issue in `KLIS-CS/GitHub-Repository-Setup`, where the three required files are previewed and `/manual-grade` is entered. The published teacher score then synchronizes back to the student's own Score Issue.
 
 ## Teacher Setup
 
 - **Skills Quiz 0:** template exercise.
-- **CP1:** enable **Template repository**; students use **Copy Exercise**, then work directly on `main` with no feature branch or PR.
+- **CP1:** keep `GitHub-Repository-Setup` **Public** and enable **Template repository**. Students use **Copy Exercise**, work directly on `main`, and see scores in their own repo. Teacher grading happens centrally in the mother repo.
 - **CP2:** template exercise for safe modification through branch + PR.
 - **CP3:** interactive Issue / Project checkpoint.
 - **CP4:** interactive local ↔ remote checkpoint.
