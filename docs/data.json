@@ -1,5 +1,176 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-09-16T05:50:44.306759+00:00",
   "privacy_note": "Public profiles contain achievements only; checkpoint grades are not published by this dashboard.",
-  "students": []
+  "students": [
+    {
+      "name": "a062133342-sudo",
+      "github": "a062133342-sudo",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ]
+    },
+    {
+      "name": "aubreyzhu66-collab",
+      "github": "aubreyzhu66-collab",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ]
+    },
+    {
+      "name": "chanmin100602-ui",
+      "github": "chanmin100602-ui",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ]
+    },
+    {
+      "name": "github-actions[bot]",
+      "github": "github-actions[bot]",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": []
+    },
+    {
+      "name": "joey041613",
+      "github": "joey041613",
+      "skills": {
+        "git": 5,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 5,
+      "badges": [
+        {
+          "skill": "git",
+          "skill_label": "Git Workflow",
+          "name": "Git Explorer",
+          "threshold": 5
+        }
+      ],
+      "verified_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ],
+      "in_progress_checkpoints": []
+    },
+    {
+      "name": "mxbcsj",
+      "github": "mxbcsj",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ]
+    },
+    {
+      "name": "wangzi0928-png",
+      "github": "wangzi0928-png",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ]
+    },
+    {
+      "name": "yrz2011624",
+      "github": "yrz2011624",
+      "skills": {
+        "git": 0,
+        "javascript": 0,
+        "testing": 0,
+        "debugging": 0,
+        "hci_ui": 0,
+        "collaboration": 0
+      },
+      "total_xp": 0,
+      "badges": [],
+      "verified_checkpoints": [],
+      "in_progress_checkpoints": [
+        {
+          "id": "cp1",
+          "label": "Repository Setup"
+        }
+      ]
+    }
+  ]
 }
