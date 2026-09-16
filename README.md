@@ -7,7 +7,7 @@ A navigation hub for the KLIS-CS GitHub Foundations skills quiz and checkpoint s
 | Stage | Skill | Exercise Repository |
 |---|---|---|
 | **Skills Quiz 0** | Markdown Foundations | [GitHub-Markdown-Skills-Quiz](https://github.com/KLIS-CS/GitHub-Markdown-Skills-Quiz) |
-| **CP1** | Repository Setup — Main Only | [GitHub-Repository-Setup](https://github.com/KLIS-CS/GitHub-Repository-Setup) |
+| **CP1** | Repository Setup — Copy Exercise + Main Only | [GitHub-Repository-Setup](https://github.com/KLIS-CS/GitHub-Repository-Setup) |
 | **CP2** | Feature Branch & Pull Request Workflow | [GitHub-Feature-Branch-Pull-Request-Workflow](https://github.com/KLIS-CS/GitHub-Feature-Branch-Pull-Request-Workflow) |
 | **CP3** | Issues & Project Management | [GitHub-Issues-Projects-Workflow](https://github.com/KLIS-CS/GitHub-Issues-Projects-Workflow) |
 | **CP4** | Local ↔ Remote Mental Model | [KLIS-CS-Git-Local-Remote-Workflow](https://github.com/KLIS-CS/KLIS-CS-Git-Local-Remote-Workflow) |
@@ -17,7 +17,7 @@ A navigation hub for the KLIS-CS GitHub Foundations skills quiz and checkpoint s
 
 ```mermaid
 flowchart LR
-    SQ0["Skills Quiz 0 — Markdown\nWrite GitHub Markdown independently"] --> CP1["CP1 — Build\nREADME + .gitignore + LICENSE on main"]
+    SQ0["Skills Quiz 0 — Markdown\nWrite GitHub Markdown independently"] --> CP1["CP1 — Build\nCopy exercise → README + .gitignore + LICENSE on main"]
     CP1 --> CP2["CP2 — Change Safely\nBranch → add → commit → push → PR"]
     CP2 --> CP3["CP3 — Manage Work\nIssue → Project → track"]
     CP3 --> CP4["CP4 — Understand Connections\nLocal ↔ origin ↔ GitHub"]
@@ -29,7 +29,7 @@ The central design rule is that students must **do real Git/GitHub work**, not o
 | Stage | Main question being tested |
 |---|---|
 | **Skills Quiz 0** | Can you write the Markdown syntax used throughout GitHub without a walkthrough? |
-| **CP1 — Repository Setup** | Can you create a clean repository and correctly complete `README.md`, `.gitignore`, and `LICENSE` on `main`? |
+| **CP1 — Repository Setup** | Can you use the official exercise copy and correctly complete `README.md`, `.gitignore`, and `LICENSE` on `main`? |
 | **CP2 — Feature Branch & Pull Request** | Can you modify an existing project safely through a feature branch and Pull Request instead of editing `main` directly? |
 | **CP3 — Issues & Projects** | Can you create, organize, and track a unit of development work? |
 | **CP4 — Local ↔ Remote** | Do you understand and use the connection between a local repository and GitHub, including `origin`, `clone`, `push`, `pull`, and local-first vs GitHub-first setup? |
@@ -57,17 +57,18 @@ Open Skills Quiz 0
 → Automatic score /100
 ```
 
-### CP1 — Repository Setup on `main`
+### CP1 — Copy Exercise, then work on `main`
 
-CP1 does **not** use a feature branch or Pull Request.
+CP1 uses **Copy Exercise**, but it does **not** use a feature branch or Pull Request.
 
 ```text
-Open CP1 instructions
-→ GitHub: New repository
-→ create cp1-repository-setup-USERNAME
-→ complete README.md
-→ complete .gitignore
-→ complete LICENSE
+Open CP1
+→ Copy Exercise
+→ create cp1-repository-setup-USERNAME in your own account
+→ stay on main
+→ replace README.md
+→ create .gitignore
+→ create LICENSE
 → save / push finished files to main
 → submit repository URL to CP1
 → teacher sees all three files in the Submission Issue
@@ -134,12 +135,12 @@ Open CP5 instructions
 100 points — final score
 ```
 
-CP1 uses a central submission Issue so the grader and teacher can inspect the student's separately created public repository. The teacher review panel shows direct links and previews for `README.md`, `.gitignore`, and `LICENSE`.
+CP1 uses a central submission Issue so the grader and teacher can inspect the student's public exercise copy. The teacher review panel shows direct links and previews for `README.md`, `.gitignore`, and `LICENSE`.
 
 ## Teacher Setup
 
 - **Skills Quiz 0:** template exercise.
-- **CP1:** instruction + grading portal; students work on `main`, with no feature branch or PR.
+- **CP1:** enable **Template repository**; students use **Copy Exercise**, then work directly on `main` with no feature branch or PR.
 - **CP2:** template exercise for safe modification through branch + PR.
 - **CP3:** interactive Issue / Project checkpoint.
 - **CP4:** interactive local ↔ remote checkpoint.
