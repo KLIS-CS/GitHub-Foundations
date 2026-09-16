@@ -1,0 +1,92 @@
+{
+  "organization": "KLIS-CS",
+  "trusted_graders": ["hbycwyh2008"],
+  "checkpoints": [
+    {
+      "id": "cp1",
+      "label": "Repository Setup",
+      "mother_repo": "GitHub-Repository-Setup",
+      "source": "mother_issue",
+      "xp": {"git": 5}
+    },
+    {
+      "id": "cp2",
+      "label": "Feature Branch & Pull Request",
+      "source": "student_repo",
+      "repo_pattern": "cp2-feature-branch-pr-workflow",
+      "marker": "klis-cp2-progress",
+      "xp": {"git": 5}
+    },
+    {
+      "id": "cp3",
+      "label": "Issues & Project Management",
+      "mother_repo": "GitHub-Issues-Projects-Workflow",
+      "source": "mother_issue",
+      "xp": {"git": 2, "collaboration": 5}
+    },
+    {
+      "id": "cp4",
+      "label": "Local ↔ Remote Mental Model",
+      "mother_repo": "KLIS-CS-Git-Local-Remote-Workflow",
+      "source": "mother_issue",
+      "xp": {"git": 5}
+    },
+    {
+      "id": "cp5",
+      "label": "Final Integrated Challenge",
+      "mother_repo": "GitHub-Final-Integrated-Challenge",
+      "source": "mother_issue",
+      "xp": {"git": 8, "debugging": 5, "javascript": 2}
+    }
+  ],
+  "skills": {
+    "git": {
+      "label": "Git Workflow",
+      "badges": [
+        {"xp": 5, "name": "Git Explorer"},
+        {"xp": 15, "name": "Git Workflow Pro"},
+        {"xp": 30, "name": "Repository Master"}
+      ]
+    },
+    "javascript": {
+      "label": "JavaScript",
+      "badges": [
+        {"xp": 5, "name": "JS Starter"},
+        {"xp": 15, "name": "JavaScript Builder"},
+        {"xp": 30, "name": "JS Developer"}
+      ]
+    },
+    "testing": {
+      "label": "Testing",
+      "badges": [
+        {"xp": 5, "name": "Test Starter"},
+        {"xp": 15, "name": "Test Engineer"},
+        {"xp": 30, "name": "Quality Engineer"}
+      ]
+    },
+    "debugging": {
+      "label": "Debugging",
+      "badges": [
+        {"xp": 5, "name": "Bug Hunter"},
+        {"xp": 15, "name": "Debugger"},
+        {"xp": 30, "name": "Debugging Specialist"}
+      ]
+    },
+    "hci_ui": {
+      "label": "HCI / UI",
+      "badges": [
+        {"xp": 5, "name": "UI Explorer"},
+        {"xp": 15, "name": "UI Designer"},
+        {"xp": 30, "name": "Product Designer"}
+      ]
+    },
+    "collaboration": {
+      "label": "Collaboration",
+      "badges": [
+        {"xp": 5, "name": "Contributor"},
+        {"xp": 15, "name": "Code Reviewer"},
+        {"xp": 30, "name": "Team Developer"}
+      ]
+    }
+  }
+}
