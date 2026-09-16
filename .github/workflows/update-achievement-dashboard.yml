@@ -14,6 +14,8 @@ on:
       - "docs/profile.html"
       - "docs/profile.js"
       - "docs/profile.css"
+      - "docs/i18n.js"
+      - "docs/i18n.css"
       - ".github/workflows/update-achievement-dashboard.yml"
 
 permissions:
