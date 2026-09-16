@@ -12,11 +12,33 @@ A navigation hub for the KLIS-CS GitHub Foundations checkpoint quizzes.
 | **CP4** | Local ↔ Remote Mental Model | [KLIS-CS-Git-Local-Remote-Workflow](https://github.com/KLIS-CS/KLIS-CS-Git-Local-Remote-Workflow) |
 | **CP5** | Final Integrated Challenge | [GitHub-Final-Integrated-Challenge](https://github.com/KLIS-CS/GitHub-Final-Integrated-Challenge) |
 
+### What each checkpoint means
+
+```mermaid
+flowchart LR
+    CP1["CP1 — Build\nCreate and configure a repository"] --> CP2["CP2 — Use Git\nBranch → add → commit → push → PR"]
+    CP2 --> CP3["CP3 — Manage Work\nIssue → Project → track → close"]
+    CP3 --> CP4["CP4 — Understand the System\nLocal ↔ origin ↔ GitHub"]
+    CP4 --> CP5["CP5 — Integrate\nDo the whole workflow independently"]
+```
+
+| Checkpoint | Main question being tested | Why it matters |
+|---|---|---|
+| **CP1 — Repository Setup** | **Can you create and configure a repository correctly from scratch?** | Students learn what makes a usable project repository: `README.md`, `.gitignore`, and LICENSE. |
+| **CP2 — Feature Branch & Pull Request Workflow** | **Can you perform the core Git development workflow?** | Students prove they can work safely on a feature branch and move changes through `git add` → `git commit` → `git push` → Pull Request instead of editing `main` directly. |
+| **CP3 — Issues & Project Management** | **Can you define, organize, and track work before and during development?** | Students learn that GitHub is not only code storage: Issues describe units of work, Projects track status, and development work can be connected back to the task. |
+| **CP4 — Local ↔ Remote Mental Model** | **Do you understand how your local repository connects to GitHub?** | Students explain `origin`, `clone`, `push`, `pull`, `git remote -v`, and the difference between local-first and GitHub-first repository setup. |
+| **CP5 — Final Integrated Challenge** | **Can you combine CP1–CP4 independently and recover from mistakes?** | Students demonstrate mastery by planning the work, using Git/GitHub correctly, debugging workflow problems, and explaining why each step exists. |
+
 ## Recommended Order
 
 **CP1 → CP2 → CP3 → CP4 → CP5**
 
-The sequence moves from repository setup, through the core Git collaboration workflow, into task management and the local/remote mental model, and ends with one integrated mastery challenge.
+The sequence deliberately moves through five different kinds of mastery:
+
+**Build → Use Git → Manage Work → Understand the System → Integrate**
+
+CP2 and CP4 intentionally overlap in commands but test different abilities: **CP2 tests execution**, while **CP4 tests understanding of the local/remote model**.
 
 ## Student Start Flow
 
