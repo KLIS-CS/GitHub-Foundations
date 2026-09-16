@@ -11,6 +11,9 @@ on:
       - "docs/index.html"
       - "docs/app.js"
       - "docs/styles.css"
+      - "docs/profile.html"
+      - "docs/profile.js"
+      - "docs/profile.css"
       - ".github/workflows/update-achievement-dashboard.yml"
 
 permissions:
