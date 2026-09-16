@@ -2,6 +2,16 @@
 
 A navigation hub for the KLIS-CS GitHub Foundations skills quiz and checkpoint sequence.
 
+## Developer Achievement Dashboard
+
+[**Open the Developer Achievement Dashboard →**](https://klis-cs.github.io/GitHub-Foundations/)
+
+Trusted CP1–CP5 grader evidence is converted into skill XP and badges. The public profile shows verified achievements and progress, **not academic grades**.
+
+```text
+checkpoint evidence → verified completion → XP → badges → Developer Profile
+```
+
 ## Learning Path Navigation
 
 | Stage | Skill | Exercise Repository |
