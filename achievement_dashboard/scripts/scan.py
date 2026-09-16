@@ -118,7 +118,37 @@ def best_score_from_issue(repo_full: str, issue_number: int, graders: set[str]) 
     return candidates[-1][1]
 
 
-def scan_mother_checkpoint(org: str, checkpoint: dict[str, Any], graders: set[str]) -> dict[str, dict[str, int | None]]:
+def submitted_username(issue: dict[str, Any]) -> str:
+    body = str(issue.get("body") or "")
+    match = re.search(r"###\s*GitHub Username\s*\n+\s*([^\n]+)", body, re.I)
+    if not match:
+        return ""
+    return match.group(1).strip().lstrip("@").lower()
+
+
+def resolve_student(issue: dict[str, Any], alias_to_login: dict[str, str]) -> str:
+    """Resolve evidence to the canonical class-roster GitHub login when known.
+
+    A student may accidentally submit an old/short username in a checkpoint form.
+    We only trust that alternate identity when the teacher has explicitly listed it
+    as an alias in students.json. Otherwise the Issue author remains the fallback.
+    """
+    author = str((issue.get("user") or {}).get("login") or "").lower()
+    submitted = submitted_username(issue)
+
+    if submitted and submitted in alias_to_login:
+        return alias_to_login[submitted]
+    if author and author in alias_to_login:
+        return alias_to_login[author]
+    return author
+
+
+def scan_mother_checkpoint(
+    org: str,
+    checkpoint: dict[str, Any],
+    graders: set[str],
+    alias_to_login: dict[str, str],
+) -> dict[str, dict[str, int | None]]:
     repo_full = f"{org}/{checkpoint['mother_repo']}"
     issues = paged(f"/repos/{repo_full}/issues", {"state": "all"})
     results: dict[str, dict[str, int | None]] = {}
@@ -126,7 +156,7 @@ def scan_mother_checkpoint(org: str, checkpoint: dict[str, Any], graders: set[st
     for issue in issues:
         if not isinstance(issue, dict) or issue.get("pull_request"):
             continue
-        student = str((issue.get("user") or {}).get("login") or "").lower()
+        student = resolve_student(issue, alias_to_login)
         if not student or student in graders or student.endswith("[bot]"):
             continue
 
@@ -165,16 +195,23 @@ def main() -> int:
     skill_defs = config["skills"]
 
     roster_by_login: dict[str, dict[str, Any]] = {}
+    alias_to_login: dict[str, str] = {}
     for row in roster.get("students", []):
-        login = str(row.get("github") or "").lower()
-        if login and not login.endswith("[bot]"):
-            roster_by_login[login] = row
+        login = str(row.get("github") or "").strip().lower()
+        if not login or login.endswith("[bot]"):
+            continue
+        roster_by_login[login] = row
+        alias_to_login[login] = login
+        for alias in row.get("aliases", []):
+            normalized = str(alias or "").strip().lstrip("@").lower()
+            if normalized:
+                alias_to_login[normalized] = login
 
     evidence_by_cp: dict[str, dict[str, dict[str, int | None]]] = {}
     discovered: set[str] = set(roster_by_login)
 
     for cp in checkpoints:
-        found = scan_mother_checkpoint(org, cp, graders)
+        found = scan_mother_checkpoint(org, cp, graders, alias_to_login)
         evidence_by_cp[cp["id"]] = found
         discovered.update(found)
 
@@ -207,9 +244,12 @@ def main() -> int:
             if skill in skills:
                 skills[skill] += int(xp)
 
+        mapped_name = str(roster_row.get("name") or "").strip()
         profiles.append({
-            "name": roster_row.get("name") or login,
+            "name": mapped_name or login,
+            "name_mapped": bool(mapped_name),
             "github": login,
+            "github_url": f"https://github.com/{login}",
             "skills": skills,
             "total_xp": sum(skills.values()),
             "badges": build_badges(skills, skill_defs),
@@ -220,6 +260,7 @@ def main() -> int:
     output = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "privacy_note": "Public profiles contain achievements only; checkpoint grades are not published by this dashboard.",
+        "checkpoints": [{"id": cp["id"], "label": cp["label"]} for cp in checkpoints],
         "students": profiles,
     }
 
