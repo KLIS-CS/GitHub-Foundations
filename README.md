@@ -39,9 +39,28 @@ The central design rule is that students must **do real Git/GitHub work**, not o
 
 **Skills Quiz 0 → CP1 → CP2 → CP3 → CP4 → CP5**
 
-The sequence moves through these layers:
+The sequence moves through:
 
 **Write → Build → Modify Safely → Manage → Understand → Integrate**
+
+## Shared grading architecture
+
+CP1–CP4 use the same student/teacher pattern:
+
+```text
+student repository
+→ automatic evidence /60
+→ student's own CP — Score Issue
+→ Submit CP to KLIS-CS mother repository
+→ teacher enters /manual-grade /40 in mother repository
+→ teacher grade is published
+→ student's own CP — Score Issue syncs
+→ Final score /100
+```
+
+For this no-secret synchronization design, the student copies for **CP1–CP4 must remain Public**.
+
+CP5 is intentionally different because creating the repository from scratch is part of the assessment. Its automatic and teacher grading live in the CP5 mother repository; an optional reusable score workflow can mirror the published final score back into the student's own CP5 repository.
 
 ## Student Start Flow
 
@@ -57,9 +76,7 @@ Open Skills Quiz 0
 → Automatic score /100
 ```
 
-### CP1 — Copy Exercise, then work on `main`
-
-CP1 uses one mother/template repository: `KLIS-CS/GitHub-Repository-Setup`.
+### CP1 — Repository Setup
 
 [![Copy CP1 Exercise](https://img.shields.io/badge/COPY%20CP1%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=GitHub-Repository-Setup&owner=%40me&name=cp1-repository-setup-YOUR-GITHUB-USERNAME&description=Checkpoint+1:+GitHub+Repository+Setup&visibility=public)
 
@@ -67,51 +84,74 @@ CP1 does **not** use a feature branch or Pull Request.
 
 ```text
 Copy Exercise
-→ create cp1-repository-setup-USERNAME in your own account
 → stay on main
-→ create README.md
-→ create .gitignore
-→ create LICENSE
-→ save / push finished files to main
-→ student's own CP1 — Score Issue shows Automatic /60
-→ Submit CP1 to the mother repository
-→ teacher reviews all three files in the mother repository
-→ teacher enters /manual-grade in the mother repository
-→ Teacher /40 + Final /100 sync back to student's own CP1 — Score Issue
+→ create README.md + .gitignore + LICENSE
+→ CP1 — Score shows Automatic /60
+→ Submit CP1
+→ teacher reviews the three files in the mother repository
+→ /manual-grade /40
+→ student's CP1 — Score updates
+→ Final /100
 ```
 
-All CP1 system files, workflows, scripts, and instructions live under `.github/`. The student's assessed root files remain visually separate:
+All CP1 system files live under `.github/`; the assessed root stays visually clean.
+
+### CP2 — Feature Branch & Pull Request
+
+[![Copy CP2 Exercise](https://img.shields.io/badge/COPY%20CP2%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=GitHub-Feature-Branch-Pull-Request-Workflow&owner=%40me&name=cp2-feature-branch-pr-workflow&description=Checkpoint+2:+Feature+Branch+%26+Pull+Request+Workflow&visibility=public)
 
 ```text
-README.md
-.gitignore
-LICENSE
-```
-
-### CP2 — Modify an Existing Repository Safely
-
-```text
-Open CP2
-→ Copy Exercise
+Copy Exercise
 → clone locally
-→ create feature branch
-→ modify required files
-→ git status
-→ git add
-→ git commit
-→ git push
-→ Pull Request
-→ automatic grading
-→ teacher grading
+→ create cp2-USERNAME branch
+→ edit feature.txt + submission.md
+→ status → add → commit → push
+→ open PR to main
+→ automatic /60
+→ CP2 — Score
+→ Submit CP2
+→ mother /manual-grade /40
+→ Final /100 syncs to student repo
 ```
 
-### CP3 — Manage Work
+### CP3 — Issues & Projects
 
-Students create and manage real Issue / Project evidence rather than only answering questions about GitHub project management.
+[![Copy CP3 Exercise](https://img.shields.io/badge/COPY%20CP3%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=GitHub-Issues-Projects-Workflow&owner=%40me&name=cp3-issues-projects-workflow&description=Checkpoint+3:+Issues+%26+Project+Management&visibility=public)
+
+```text
+Copy Exercise
+→ create cp3-USERNAME branch
+→ create [CP3] Issue
+→ Goal + checklist + label + self-assignee
+→ add Project evidence
+→ complete submission.md
+→ open PR to main
+→ automatic /60
+→ CP3 — Score
+→ Submit CP3
+→ mother /manual-grade /40
+→ Final /100 syncs to student repo
+```
+
+GitHub Project quality remains teacher-reviewed.
 
 ### CP4 — Local ↔ Remote
 
-Students execute and explain the local/remote workflow, including the two repository-starting routes and diagnostic commands.
+[![Copy CP4 Exercise](https://img.shields.io/badge/COPY%20CP4%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=KLIS-CS-Git-Local-Remote-Workflow&owner=%40me&name=cp4-local-remote-workflow&description=Checkpoint+4:+Local+and+Remote+Git+Workflow&visibility=public)
+
+```text
+Copy Exercise
+→ clone locally
+→ inspect status / branch / remote
+→ create cp4-USERNAME branch
+→ complete command + concept evidence
+→ commit → push → PR
+→ automatic /60
+→ CP4 — Score
+→ Submit CP4
+→ mother /manual-grade /40
+→ Final /100 syncs to student repo
+```
 
 ### CP5 — Create + Modify + Integrate from Scratch
 
@@ -124,22 +164,25 @@ Open CP5 instructions
 → configure README + .gitignore + LICENSE
 → clone locally
 → create [CP5] Issue + Project tracking
-→ create cp5-USERNAME feature branch
-→ modify README + create src/index.js
-→ git status → add → commit → push
+→ create cp5-USERNAME branch
+→ implement src/index.js
+→ status → add → commit → push
 → open PR to main
-→ connect PR to Issue with Closes/Fixes/Resolves #N
+→ connect PR to Issue
 → complete debugging responses
-→ submit external repository URL to CP5
-→ automatic grading
-→ teacher grading
+→ Submit CP5
+→ mother automatic /60
+→ mother /manual-grade /40
+→ CP5 Published Grade shows Final /100
 ```
+
+Students who want a score Issue in their own from-scratch CP5 repo can add the small reusable score-workflow caller documented in the CP5 instructions. That system file is not graded project content.
 
 ## Grading Model
 
 **Skills Quiz 0** is **100% automatically graded**.
 
-**CP1–CP5** use the shared checkpoint model:
+**CP1–CP5** use:
 
 ```text
 60 points — automatic evidence
@@ -147,13 +190,11 @@ Open CP5 instructions
 100 points — final score
 ```
 
-For CP1, the student sees the automatic score in their own repository. The teacher uses one central Submission Issue in `KLIS-CS/GitHub-Repository-Setup`, where the three required files are previewed and `/manual-grade` is entered. The published teacher score then synchronizes back to the student's own Score Issue.
-
 ## Teacher Setup
 
 - **Skills Quiz 0:** template exercise.
-- **CP1:** keep `GitHub-Repository-Setup` **Public** and enable **Template repository**. Students use **Copy Exercise**, work directly on `main`, and see scores in their own repo. Teacher grading happens centrally in the mother repo.
-- **CP2:** template exercise for safe modification through branch + PR.
-- **CP3:** interactive Issue / Project checkpoint.
-- **CP4:** interactive local ↔ remote checkpoint.
-- **CP5:** instruction + grading portal for the integrated workflow.
+- **CP1:** Public Template repository; main-only student work; mother-repository teacher grading.
+- **CP2:** Public Template repository; branch + PR execution; mother-repository teacher grading; score sync back to student.
+- **CP3:** Public Template repository; Issue / Project management; mother-repository teacher grading; score sync back to student.
+- **CP4:** Public Template repository; local ↔ remote commands and mental model; mother-repository teacher grading; score sync back to student.
+- **CP5:** from-scratch public repository; mother repository is the submission/grading portal; published final grade can optionally sync back with the reusable workflow.
