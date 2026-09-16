@@ -12,9 +12,8 @@
     {
       "id": "cp2",
       "label": "Feature Branch & Pull Request",
-      "source": "student_repo",
-      "repo_pattern": "cp2-feature-branch-pr-workflow",
-      "marker": "klis-cp2-progress",
+      "mother_repo": "GitHub-Feature-Branch-Pull-Request-Workflow",
+      "source": "mother_issue",
       "xp": {"git": 5}
     },
     {
