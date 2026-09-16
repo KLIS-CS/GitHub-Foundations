@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T05:51:07.078988+00:00",
+  "generated_at": "2026-09-16T05:53:07.259684+00:00",
   "privacy_note": "Public profiles contain achievements only; checkpoint grades are not published by this dashboard.",
   "students": [
     {
@@ -79,7 +79,12 @@
       "total_xp": 0,
       "badges": [],
       "verified_checkpoints": [],
-      "in_progress_checkpoints": []
+      "in_progress_checkpoints": [
+        {
+          "id": "cp2",
+          "label": "Feature Branch & Pull Request"
+        }
+      ]
     },
     {
       "name": "joey041613",
