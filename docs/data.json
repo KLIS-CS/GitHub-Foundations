@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-16T05:53:07.259684+00:00",
+  "generated_at": "2026-09-16T05:53:53.037332+00:00",
   "privacy_note": "Public profiles contain achievements only; checkpoint grades are not published by this dashboard.",
   "students": [
     {
@@ -62,27 +62,6 @@
         {
           "id": "cp1",
           "label": "Repository Setup"
-        }
-      ]
-    },
-    {
-      "name": "github-actions[bot]",
-      "github": "github-actions[bot]",
-      "skills": {
-        "git": 0,
-        "javascript": 0,
-        "testing": 0,
-        "debugging": 0,
-        "hci_ui": 0,
-        "collaboration": 0
-      },
-      "total_xp": 0,
-      "badges": [],
-      "verified_checkpoints": [],
-      "in_progress_checkpoints": [
-        {
-          "id": "cp2",
-          "label": "Feature Branch & Pull Request"
         }
       ]
     },
