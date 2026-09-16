@@ -17,7 +17,7 @@ A navigation hub for the KLIS-CS GitHub Foundations skills quiz and checkpoint s
 
 ```mermaid
 flowchart LR
-    SQ0["Skills Quiz 0 — Markdown\nWrite GitHub Markdown independently"] --> CP1["CP1 — Build\nCreate and configure a repository"]
+    SQ0["Skills Quiz 0 — Markdown\nWrite GitHub Markdown independently"] --> CP1["CP1 — Build\nConfigure a usable repository"]
     CP1 --> CP2["CP2 — Use Git\nBranch → add → commit → push → PR"]
     CP2 --> CP3["CP3 — Manage Work\nIssue → Project → track → close"]
     CP3 --> CP4["CP4 — Understand the System\nLocal ↔ origin ↔ GitHub"]
@@ -27,7 +27,7 @@ flowchart LR
 | Stage | Main question being tested | Why it matters |
 |---|---|---|
 | **Skills Quiz 0 — Markdown Foundations** | **Can you write the Markdown syntax used throughout GitHub without a walkthrough?** | Students prove they can format headings, emphasis, lists, links, code, task lists, blockquotes, and tables before those skills are embedded inside later GitHub work. |
-| **CP1 — Repository Setup** | **Can you create and configure a repository correctly from scratch?** | Students learn what makes a usable project repository: `README.md`, `.gitignore`, and LICENSE. |
+| **CP1 — Repository Setup** | **Can you turn a starter repository into a correctly configured project repository?** | Students must replace the starter README and make their own `.gitignore` and LICENSE choices while the quiz shell keeps task and submission UX consistent. |
 | **CP2 — Feature Branch & Pull Request Workflow** | **Can you perform the core Git development workflow?** | Students prove they can work safely on a feature branch and move changes through `git add` → `git commit` → `git push` → Pull Request instead of editing `main` directly. |
 | **CP3 — Issues & Project Management** | **Can you define, organize, and track work before and during development?** | Students learn that GitHub is not only code storage: Issues describe units of work, Projects track status, and development work can be connected back to the task. |
 | **CP4 — Local ↔ Remote Mental Model** | **Do you understand how your local repository connects to GitHub?** | Students explain `origin`, `clone`, `push`, `pull`, `git remote -v`, and the difference between local-first and GitHub-first repository setup. |
@@ -47,8 +47,6 @@ CP2 and CP4 intentionally overlap in commands but test different abilities: **CP
 
 ### Skills Quiz 0 — Markdown Foundations
 
-This is a short prerequisite skills check. It is intentionally isolated from branching and Pull Requests so the score reflects Markdown skill rather than Git workflow skill.
-
 ```text
 Open Skills Quiz 0
 → Copy Exercise
@@ -59,22 +57,29 @@ Open Skills Quiz 0
 → Automatic score /100
 ```
 
-### CP1
+### CP1 — Repository Setup
 
-CP1 intentionally starts differently because the skill being tested is **creating a repository from scratch**.
+CP1 now uses an **exercise template shell** so students keep the task instructions and Submit entry point after cloning, while the assessed files still have to be completed by the student.
 
 ```text
 Open CP1
-→ Start CP1 / Create Repository
-→ Configure README + .gitignore + LICENSE
+→ Copy Exercise
+→ Name repo cp1-repository-setup-USERNAME
+→ Actions
+→ Start CP1
+→ Clone locally
+→ Read CP1-TASK.md
+→ Replace README.md
+→ Create .gitignore
+→ Add LICENSE
+→ Push to main
 → Submit CP1 Issue Form
 → Automatic grading
+→ Teacher file review
 → Teacher grading
 ```
 
 ### CP2–CP5
-
-These checkpoints use reusable exercise copies:
 
 ```text
 Open checkpoint
@@ -93,7 +98,7 @@ The student should leave the required Pull Request open until teacher review is 
 
 ## Grading Model
 
-**Skills Quiz 0** is a focused syntax check and is **100% automatically graded**.
+**Skills Quiz 0** is **100% automatically graded**.
 
 ```text
 100 points — automatic Markdown evidence
@@ -107,10 +112,10 @@ The student should leave the required Pull Request open until teacher review is 
 100 points — final score
 ```
 
-The checkpoint teacher grading area automatically provides a fixed rubric template. The teacher copies the template into a new comment, changes the category scores, adds feedback, and the workflow calculates the teacher subtotal and final score.
+For CP1, the teacher review panel in the central submission Issue provides direct links and previews for `README.md`, `.gitignore`, and `LICENSE`. For CP2–CP5, the teacher grades from the student's Pull Request.
 
 ## Teacher Setup
 
-- **Skills Quiz 0:** enable **Settings → General → Template repository** so the **Copy Exercise** button works.
-- **CP1:** does not need to be a Template repository because students create a repository from scratch.
-- **CP2–CP5:** enable **Settings → General → Template repository** so the **Copy Exercise** buttons work.
+- **Skills Quiz 0:** Template repository enabled.
+- **CP1:** Template repository enabled. The template supplies the quiz shell only; students must replace the starter README and create their own `.gitignore` and LICENSE choices.
+- **CP2–CP5:** Template repository enabled.
