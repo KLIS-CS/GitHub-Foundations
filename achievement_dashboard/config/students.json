@@ -1,3 +1,13 @@
 {
-  "students": []
+  "students": [
+    {
+      "github": "modiywang389-boop",
+      "name": "Modi",
+      "aliases": [
+        "modiyang389-boop"
+      ],
+      "enabled": true,
+      "manual_xp": {}
+    }
+  ]
 }
