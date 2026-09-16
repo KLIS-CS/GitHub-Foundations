@@ -1,6 +1,59 @@
 {
   "students": [
     {
+      "github": "mxbcsj",
+      "name": "Jerry",
+      "aliases": [],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
+      "github": "chanmin100602-ui",
+      "name": "James",
+      "aliases": [
+        "chanmin100602"
+      ],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
+      "github": "yrz2011624",
+      "name": "Tom",
+      "aliases": [],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
+      "github": "wangzi0928-png",
+      "name": "Bhavin",
+      "aliases": [
+        "wangzi0928"
+      ],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
+      "github": "aubreyzhu66-collab",
+      "name": "Audrey",
+      "aliases": [],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
+      "github": "joey041613",
+      "name": "Joey",
+      "aliases": [],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
+      "github": "a062133342-sudo",
+      "name": "Sissi",
+      "aliases": [],
+      "enabled": true,
+      "manual_xp": {}
+    },
+    {
       "github": "modiywang389-boop",
       "name": "Modi",
       "aliases": [
