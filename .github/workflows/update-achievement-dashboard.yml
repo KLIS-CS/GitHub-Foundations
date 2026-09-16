@@ -1,0 +1,69 @@
+name: Update Developer Achievement Dashboard
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - "achievement_dashboard/**"
+      - "docs/index.html"
+      - "docs/app.js"
+      - "docs/styles.css"
+      - ".github/workflows/update-achievement-dashboard.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: klis-developer-achievement-dashboard
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out GitHub Foundations
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scan trusted checkpoint evidence
+        env:
+          GH_SCANNER_TOKEN: ${{ secrets.GH_SCANNER_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python achievement_dashboard/scripts/scan.py
+
+      - name: Commit refreshed public profile data
+        run: |
+          git config user.name "KLIS Achievement Bot"
+          git config user.email "klis-achievement-bot@users.noreply.github.com"
+          git add docs/data.json docs/rules.json
+          if git diff --cached --quiet; then
+            echo "No dashboard data changes."
+          else
+            git commit -m "Update developer achievement profiles"
+            git push
+          fi
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload dashboard site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./docs
+
+      - name: Deploy dashboard
+        id: deployment
+        uses: actions/deploy-pages@v4
