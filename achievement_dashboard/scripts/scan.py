@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """Build public Developer Profiles from trusted KLIS-CS checkpoint evidence.
 
-The script intentionally publishes achievements, not grades. Numeric checkpoint
-scores are used only in memory to decide whether a checkpoint has produced the
-required verified evidence. The generated public JSON contains XP, badges and
-verified checkpoint names only.
+Numeric checkpoint grades are used only in memory to decide whether verified
+automatic evidence is complete. Public output contains achievements, not grades.
 """
 
 from __future__ import annotations
@@ -21,16 +19,13 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-SYSTEM = ROOT / "achievement_dashboard"
-CONFIG = SYSTEM / "config"
+CONFIG = ROOT / "achievement_dashboard" / "config"
 DOCS = ROOT / "docs"
+TOKEN = os.getenv("GH_SCANNER_TOKEN", "").strip() or os.getenv("GITHUB_TOKEN", "").strip()
 
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
-
-
-TOKEN = os.getenv("GH_SCANNER_TOKEN", "").strip() or os.getenv("GITHUB_TOKEN", "").strip()
 
 
 def api_get(path: str, query: dict[str, Any] | None = None) -> Any:
@@ -76,7 +71,6 @@ def paged(path: str, query: dict[str, Any] | None = None, max_pages: int = 10) -
 
 
 def parse_score(text: str) -> dict[str, int | None]:
-    """Parse score language used by the KLIS checkpoint graders."""
     auto_patterns = [
         r"Automatic score:\*\*?\s*(\d{1,3})\s*/\s*60",
         r"Automatic:\*\*?\s*(\d{1,3})\s*/\s*60",
@@ -108,18 +102,16 @@ def trusted_comment(comment: dict[str, Any], graders: set[str]) -> bool:
     return user_type == "Bot" or login in graders or login.endswith("[bot]")
 
 
-def best_score_from_issue(repo_full: str, issue: dict[str, Any], graders: set[str], marker: str | None = None) -> dict[str, int | None]:
-    comments = paged(f"/repos/{repo_full}/issues/{issue['number']}/comments")
+def best_score_from_issue(repo_full: str, issue_number: int, graders: set[str]) -> dict[str, int | None]:
+    comments = paged(f"/repos/{repo_full}/issues/{issue_number}/comments")
     candidates: list[tuple[str, dict[str, int | None]]] = []
     for comment in comments:
         if not isinstance(comment, dict) or not trusted_comment(comment, graders):
             continue
-        body = str(comment.get("body") or "")
-        if marker and marker not in body:
-            continue
-        parsed = parse_score(body)
+        parsed = parse_score(str(comment.get("body") or ""))
         if parsed["automatic"] is not None or parsed["final"] is not None:
-            candidates.append((str(comment.get("updated_at") or comment.get("created_at") or ""), parsed))
+            timestamp = str(comment.get("updated_at") or comment.get("created_at") or "")
+            candidates.append((timestamp, parsed))
     if not candidates:
         return {"automatic": None, "final": None}
     candidates.sort(key=lambda item: item[0])
@@ -130,39 +122,23 @@ def scan_mother_checkpoint(org: str, checkpoint: dict[str, Any], graders: set[st
     repo_full = f"{org}/{checkpoint['mother_repo']}"
     issues = paged(f"/repos/{repo_full}/issues", {"state": "all"})
     results: dict[str, dict[str, int | None]] = {}
+
     for issue in issues:
         if not isinstance(issue, dict) or issue.get("pull_request"):
             continue
         student = str((issue.get("user") or {}).get("login") or "").lower()
-        if not student or student in graders:
+        if not student or student in graders or student.endswith("[bot]"):
             continue
-        score = best_score_from_issue(repo_full, issue, graders)
+
+        score = best_score_from_issue(repo_full, int(issue["number"]), graders)
         if score["automatic"] is None and score["final"] is None:
             continue
+
         previous = results.get(student)
-        # Prefer the latest / strongest evidence if a student submitted more than once.
         if previous is None or int(score["automatic"] or 0) >= int(previous["automatic"] or 0):
             results[student] = score
+
     return results
-
-
-def scan_student_cp2(student: str, checkpoint: dict[str, Any], graders: set[str]) -> dict[str, int | None] | None:
-    repo = checkpoint["repo_pattern"].replace("{github}", student)
-    repo_full = f"{student}/{repo}"
-    meta = api_get(f"/repos/{repo_full}")
-    if is_error(meta):
-        return None
-    issues = paged(f"/repos/{repo_full}/issues", {"state": "all"})
-    best: dict[str, int | None] | None = None
-    for issue in issues:
-        if not isinstance(issue, dict):
-            continue
-        score = best_score_from_issue(repo_full, issue, graders, checkpoint.get("marker"))
-        if score["automatic"] is None and score["final"] is None:
-            continue
-        if best is None or int(score["automatic"] or 0) >= int(best["automatic"] or 0):
-            best = score
-    return best
 
 
 def build_badges(skills: dict[str, int], definitions: dict[str, Any]) -> list[dict[str, Any]]:
@@ -191,36 +167,25 @@ def main() -> int:
     roster_by_login: dict[str, dict[str, Any]] = {}
     for row in roster.get("students", []):
         login = str(row.get("github") or "").lower()
-        if login:
+        if login and not login.endswith("[bot]"):
             roster_by_login[login] = row
 
     evidence_by_cp: dict[str, dict[str, dict[str, int | None]]] = {}
     discovered: set[str] = set(roster_by_login)
 
-    # Central mother-repository submissions are the trusted discovery channel.
     for cp in checkpoints:
-        if cp.get("source") != "mother_issue":
-            continue
         found = scan_mother_checkpoint(org, cp, graders)
         evidence_by_cp[cp["id"]] = found
         discovered.update(found)
 
-    # CP2 currently grades inside each student's copied repository. Scan it for
-    # students discovered elsewhere or explicitly listed in students.json.
-    for cp in checkpoints:
-        if cp.get("source") != "student_repo":
-            continue
-        evidence_by_cp.setdefault(cp["id"], {})
-        for student in sorted(discovered):
-            score = scan_student_cp2(student, cp, graders)
-            if score:
-                evidence_by_cp[cp["id"]][student] = score
-
     profiles: list[dict[str, Any]] = []
     for login in sorted(discovered):
+        if login.endswith("[bot]"):
+            continue
         roster_row = roster_by_login.get(login, {})
         if roster_row.get("enabled") is False:
             continue
+
         skills = {key: 0 for key in skill_defs}
         verified: list[dict[str, str]] = []
         in_progress: list[dict[str, str]] = []
@@ -242,13 +207,12 @@ def main() -> int:
             if skill in skills:
                 skills[skill] += int(xp)
 
-        badges = build_badges(skills, skill_defs)
         profiles.append({
             "name": roster_row.get("name") or login,
             "github": login,
             "skills": skills,
             "total_xp": sum(skills.values()),
-            "badges": badges,
+            "badges": build_badges(skills, skill_defs),
             "verified_checkpoints": verified,
             "in_progress_checkpoints": in_progress,
         })
