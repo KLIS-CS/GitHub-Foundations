@@ -19,8 +19,15 @@ function slug(value) {
   return encodeURIComponent(value);
 }
 
+function initials(value) {
+  const parts = String(value || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+}
+
 function badgeIcon(index) {
-  return index === 0 ? '🥉' : index === 1 ? '🥈' : '🥇';
+  return index === 0 ? '◉' : index === 1 ? '◆' : '★';
 }
 
 function nextBadge(skillKey, xp, rules) {
@@ -33,119 +40,245 @@ function maxThreshold(skillKey, rules) {
   return badges.length ? Math.max(...badges.map((badge) => Number(badge.xp))) : 1;
 }
 
-function renderStudentList(data) {
-  if (!data.students?.length) {
-    app.innerHTML = `
-      <div class="empty">
-        <strong>No student profiles yet.</strong>
-        <p>Profiles appear automatically after a student has trusted checkpoint evidence, or after the student is added to the optional roster.</p>
-      </div>`;
-    return;
-  }
+function studentStatus(student) {
+  const verified = (student.verified_checkpoints || []).length;
+  const progress = (student.in_progress_checkpoints || []).length;
+  if (verified && progress) return { label: 'Active', className: 'active' };
+  if (verified) return { label: 'Verified', className: 'verified' };
+  if (progress) return { label: 'In progress', className: 'progressing' };
+  return { label: 'Not started', className: 'not-started' };
+}
 
-  app.innerHTML = `
-    <div class="summary-bar">
-      <strong>${data.students.length}</strong> developer profile${data.students.length === 1 ? '' : 's'}
-      <span>·</span>
-      <span>Updated ${new Date(data.generated_at).toLocaleString()}</span>
-    </div>
-    <div class="grid">
-      ${data.students.map((student) => {
-        const badges = (student.badges || []).slice(-4).reverse();
-        return `
-          <a class="card" href="#${slug(student.github)}">
-            <div class="card-top">
-              <div>
-                <h2>${esc(student.name)}</h2>
-                <div class="github">@${esc(student.github)}</div>
-              </div>
-              <div class="profile-arrow">→</div>
-            </div>
-            <div class="badge-row">
-              ${badges.length
-                ? badges.map((badge) => `<span class="badge">🏅 ${esc(badge.name)}</span>`).join('')
-                : '<span class="badge muted">Profile started</span>'}
-            </div>
-            <div class="card-meta">
-              <span>${Number(student.total_xp || 0)} verified XP</span>
-              <span>${(student.verified_checkpoints || []).length} verified checkpoints</span>
-            </div>
-          </a>`;
+function checkpointMap(student) {
+  const map = new Map();
+  (student.verified_checkpoints || []).forEach((cp) => map.set(cp.id, 'verified'));
+  (student.in_progress_checkpoints || []).forEach((cp) => map.set(cp.id, 'progressing'));
+  return map;
+}
+
+function checkpointTrack(student, checkpoints) {
+  const states = checkpointMap(student);
+  return `
+    <div class="checkpoint-track" aria-label="Checkpoint progress">
+      ${(checkpoints || []).map((cp) => {
+        const state = states.get(cp.id) || 'not-started';
+        const short = cp.id.toUpperCase();
+        return `<span class="checkpoint-dot ${state}" title="${esc(cp.label)} · ${state === 'verified' ? 'Verified' : state === 'progressing' ? 'In progress' : 'Not started'}">${esc(short)}</span>`;
       }).join('')}
     </div>`;
 }
 
-function renderProfile(student, rules) {
+function renderStudentList(data, rules) {
+  if (!data.students?.length) {
+    app.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">◇</div>
+        <strong>No student profiles yet</strong>
+        <p>Profiles appear automatically when checkpoint evidence is detected or a student is added to the roster.</p>
+      </div>`;
+    return;
+  }
+
+  const totalBadges = data.students.reduce((sum, student) => sum + (student.badges || []).length, 0);
+  const totalVerified = data.students.reduce((sum, student) => sum + (student.verified_checkpoints || []).length, 0);
+  const active = data.students.filter((student) => {
+    const status = studentStatus(student).className;
+    return status === 'active' || status === 'verified' || status === 'progressing';
+  }).length;
+
+  app.innerHTML = `
+    <section class="stats-grid" aria-label="Class overview">
+      <div class="stat-card"><span>Students</span><strong>${data.students.length}</strong><small>developer profiles</small></div>
+      <div class="stat-card"><span>Active</span><strong>${active}</strong><small>with checkpoint evidence</small></div>
+      <div class="stat-card"><span>Verified</span><strong>${totalVerified}</strong><small>checkpoint completions</small></div>
+      <div class="stat-card"><span>Badges</span><strong>${totalBadges}</strong><small>skills unlocked</small></div>
+    </section>
+
+    <section class="directory-panel">
+      <div class="directory-head">
+        <div>
+          <p class="section-eyebrow">Student directory</p>
+          <h2>Developer Profiles</h2>
+          <p>Real names are linked to GitHub accounts through the class roster.</p>
+        </div>
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="student-search" type="search" placeholder="Search name or GitHub account" autocomplete="off">
+        </label>
+      </div>
+
+      <div class="grid" id="student-grid">
+        ${data.students.map((student) => {
+          const badges = (student.badges || []).slice(-3).reverse();
+          const status = studentStatus(student);
+          const displayName = student.name || student.github;
+          const searchText = `${displayName} ${student.github}`.toLowerCase();
+          return `
+            <a class="student-card" href="#${slug(student.github)}" data-search="${esc(searchText)}">
+              <div class="student-card-head">
+                <div class="avatar">${esc(initials(displayName))}</div>
+                <span class="status-pill ${status.className}"><i></i>${esc(status.label)}</span>
+              </div>
+
+              <div class="identity-block">
+                <h3>${esc(displayName)}</h3>
+                <p>@${esc(student.github)}</p>
+                ${student.name_mapped ? '' : '<span class="identity-note">Roster name not linked yet</span>'}
+              </div>
+
+              ${checkpointTrack(student, data.checkpoints)}
+
+              <div class="badge-shelf compact">
+                ${badges.length
+                  ? badges.map((badge) => `<span class="achievement-chip">${esc(badge.name)}</span>`).join('')
+                  : '<span class="achievement-chip muted">First badge in progress</span>'}
+              </div>
+
+              <div class="student-card-footer">
+                <div><strong>${Number(student.total_xp || 0)}</strong><span>XP</span></div>
+                <div><strong>${(student.badges || []).length}</strong><span>Badges</span></div>
+                <div><strong>${(student.verified_checkpoints || []).length}</strong><span>Verified</span></div>
+                <span class="open-profile">View profile →</span>
+              </div>
+            </a>`;
+        }).join('')}
+      </div>
+      <div class="no-results" id="no-results" hidden>No matching student profile.</div>
+    </section>
+
+    <p class="updated-note">Updated ${new Date(data.generated_at).toLocaleString()}</p>`;
+
+  const search = document.querySelector('#student-search');
+  const cards = [...document.querySelectorAll('.student-card')];
+  const noResults = document.querySelector('#no-results');
+  search?.addEventListener('input', () => {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+    cards.forEach((card) => {
+      const match = !query || card.dataset.search.includes(query);
+      card.hidden = !match;
+      if (match) visible += 1;
+    });
+    noResults.hidden = visible !== 0;
+  });
+}
+
+function renderProfile(student, data, rules) {
   const skillEntries = Object.entries(rules.skills || {});
   const badges = student.badges || [];
+  const status = studentStatus(student);
+  const displayName = student.name || student.github;
 
   const badgeHtml = badges.length
     ? badges.map((badge) => {
         const skillBadges = rules.skills?.[badge.skill]?.badges || [];
         const idx = Math.max(0, skillBadges.findIndex((b) => b.name === badge.name));
-        return `<span class="badge large">${badgeIcon(idx)} ${esc(badge.name)}</span>`;
+        return `
+          <div class="badge-card tier-${idx + 1}">
+            <div class="badge-symbol">${badgeIcon(idx)}</div>
+            <div>
+              <span>${esc(badge.skill_label)}</span>
+              <strong>${esc(badge.name)}</strong>
+            </div>
+          </div>`;
       }).join('')
-    : '<span class="badge muted">Profile started</span>';
+    : '<div class="badge-empty"><span>◇</span><div><strong>First badge in progress</strong><p>Verified checkpoint work will unlock achievements here.</p></div></div>';
 
   const skillsHtml = skillEntries.map(([key, definition]) => {
     const xp = Number(student.skills?.[key] || 0);
     const max = maxThreshold(key, rules);
     const pct = Math.max(0, Math.min(100, (xp / max) * 100));
     const next = nextBadge(key, xp, rules);
-    const note = next ? `Next: ${esc(next.name)} · ${xp}/${next.xp} XP` : 'Highest current badge achieved';
+    const note = next ? `${next.xp - xp} XP to ${next.name}` : 'Top badge unlocked';
     return `
-      <div class="skill">
+      <div class="skill-card skill-${esc(key)}">
         <div class="skill-head">
-          <span class="skill-name">${esc(definition.label)}</span>
-          <span class="skill-xp">${xp} XP</span>
+          <div>
+            <span class="skill-name">${esc(definition.label)}</span>
+            <small>${esc(note)}</small>
+          </div>
+          <strong>${xp}<span> XP</span></strong>
         </div>
         <div class="progress" role="progressbar" aria-label="${esc(definition.label)}" aria-valuemin="0" aria-valuemax="${max}" aria-valuenow="${xp}">
           <span style="width:${pct}%"></span>
         </div>
-        <p class="next-note">${note}</p>
+        <div class="milestone-row">
+          ${(definition.badges || []).map((badge) => `<span class="${xp >= badge.xp ? 'reached' : ''}">${badge.xp}</span>`).join('')}
+        </div>
       </div>`;
   }).join('');
 
-  const nextCards = skillEntries.map(([key, definition]) => {
-    const xp = Number(student.skills?.[key] || 0);
-    const next = nextBadge(key, xp, rules);
-    if (!next) return '';
+  const states = checkpointMap(student);
+  const evidenceHtml = (data.checkpoints || []).map((cp, index) => {
+    const state = states.get(cp.id) || 'not-started';
+    const label = state === 'verified' ? 'Verified' : state === 'progressing' ? 'In progress' : 'Not started';
     return `
-      <div class="next-card">
-        <strong>🔒 ${esc(next.name)}</strong>
-        <span>${xp} / ${next.xp} ${esc(definition.label)} XP</span>
+      <div class="evidence-row ${state}">
+        <div class="evidence-index">${index + 1}</div>
+        <div class="evidence-copy">
+          <strong>${esc(cp.id.toUpperCase())} · ${esc(cp.label)}</strong>
+          <span>${esc(label)}</span>
+        </div>
+        <div class="evidence-mark">${state === 'verified' ? '✓' : state === 'progressing' ? '•' : '—'}</div>
       </div>`;
-  }).filter(Boolean).join('');
-
-  const verified = student.verified_checkpoints || [];
-  const inProgress = student.in_progress_checkpoints || [];
-  const evidenceHtml = [
-    ...verified.map((cp) => `<div class="evidence-item verified"><span>✓ ${esc(cp.label)}</span><span>Verified</span></div>`),
-    ...inProgress.map((cp) => `<div class="evidence-item"><span>${esc(cp.label)}</span><span>In progress</span></div>`),
-  ].join('');
+  }).join('');
 
   app.innerHTML = `
-    <article class="profile">
-      <div class="profile-top">
-        <div>
-          <p class="profile-kicker">Developer Profile</p>
-          <h2 class="profile-name">${esc(student.name)}</h2>
-          <p class="profile-label">@${esc(student.github)}</p>
+    <article class="profile-page">
+      <a class="back-link" href="#">← All students</a>
+
+      <section class="profile-hero">
+        <div class="profile-avatar">${esc(initials(displayName))}</div>
+        <div class="profile-identity">
+          <p class="profile-kicker">KLIS-CS Developer Profile</p>
+          <h2>${esc(displayName)}</h2>
+          <div class="profile-meta-row">
+            <a href="${esc(student.github_url || `https://github.com/${student.github}`)}" target="_blank" rel="noreferrer">@${esc(student.github)} ↗</a>
+            <span class="status-pill ${status.className}"><i></i>${esc(status.label)}</span>
+            ${student.name_mapped ? '<span class="roster-chip">Roster linked</span>' : '<span class="roster-chip pending">Name mapping pending</span>'}
+          </div>
         </div>
-        <div class="xp-total"><strong>${Number(student.total_xp || 0)}</strong><span>verified XP</span></div>
+        <div class="profile-score">
+          <strong>${Number(student.total_xp || 0)}</strong>
+          <span>verified XP</span>
+        </div>
+      </section>
+
+      <div class="profile-layout">
+        <div class="profile-main">
+          <section class="profile-section">
+            <div class="section-heading">
+              <div><p class="section-eyebrow">Achievement shelf</p><h3>Badges</h3></div>
+              <span>${badges.length} unlocked</span>
+            </div>
+            <div class="badge-grid">${badgeHtml}</div>
+          </section>
+
+          <section class="profile-section">
+            <div class="section-heading">
+              <div><p class="section-eyebrow">Competency profile</p><h3>Skills</h3></div>
+              <span>Evidence-based XP</span>
+            </div>
+            <div class="skills-grid">${skillsHtml}</div>
+          </section>
+        </div>
+
+        <aside class="profile-side">
+          <section class="side-panel">
+            <div class="section-heading compact-heading">
+              <div><p class="section-eyebrow">Learning evidence</p><h3>Checkpoints</h3></div>
+            </div>
+            <div class="evidence-list">${evidenceHtml}</div>
+          </section>
+
+          <section class="side-panel profile-summary">
+            <p class="section-eyebrow">Profile summary</p>
+            <div><span>Verified checkpoints</span><strong>${(student.verified_checkpoints || []).length}/${(data.checkpoints || []).length}</strong></div>
+            <div><span>Badges unlocked</span><strong>${badges.length}</strong></div>
+            <div><span>Total verified XP</span><strong>${Number(student.total_xp || 0)}</strong></div>
+          </section>
+        </aside>
       </div>
-
-      <h3 class="section-title">Achievements</h3>
-      <div class="badge-row">${badgeHtml}</div>
-
-      <h3 class="section-title">Skills</h3>
-      <div class="skill-list">${skillsHtml}</div>
-
-      <h3 class="section-title">Next achievements</h3>
-      <div class="next-grid">${nextCards || '<div class="next-card"><strong>All current badge levels achieved.</strong></div>'}</div>
-
-      <h3 class="section-title">Verified checkpoint evidence</h3>
-      <div class="evidence-list">${evidenceHtml || '<div class="empty small">No verified checkpoint evidence yet.</div>'}</div>
     </article>`;
 }
 
@@ -155,7 +288,7 @@ async function boot() {
     const render = () => {
       const github = decodeURIComponent(location.hash.replace(/^#/, ''));
       if (!github) {
-        renderStudentList(data);
+        renderStudentList(data, rules);
         return;
       }
       const student = data.students.find((item) => item.github.toLowerCase() === github.toLowerCase());
@@ -163,12 +296,12 @@ async function boot() {
         location.hash = '';
         return;
       }
-      renderProfile(student, rules);
+      renderProfile(student, data, rules);
     };
     window.addEventListener('hashchange', render);
     render();
   } catch (error) {
-    app.innerHTML = `<div class="empty"><strong>Dashboard data is not ready.</strong><p>${esc(error.message)}</p></div>`;
+    app.innerHTML = `<div class="empty-state"><div class="empty-icon">!</div><strong>Dashboard data is not ready</strong><p>${esc(error.message)}</p></div>`;
   }
 }
 
