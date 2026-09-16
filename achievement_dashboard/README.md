@@ -29,7 +29,9 @@ A checkpoint contributes XP after its trusted automatic evidence reaches the ful
 
 ## Student discovery
 
-Students are discovered automatically from trusted submission Issues in the KLIS-CS mother repositories for CP1, CP3, CP4, and CP5. `config/students.json` is optional and can be used to add a display name, include a student before their first central submission, or add teacher-validated manual XP later.
+Students are discovered automatically from trusted submission Issues in the five KLIS-CS checkpoint mother repositories. No separate student repository scan is required for CP1–CP5.
+
+`config/students.json` is optional and can be used to add a display name, include a student before their first central submission, hide a profile, or add teacher-validated manual XP later.
 
 Example:
 
@@ -48,10 +50,6 @@ Example:
   ]
 }
 ```
-
-## CP2 note
-
-CP2 currently grades inside the student's copied repository. The dashboard can read CP2 automatically when that repository is public, or when `GH_SCANNER_TOKEN` has read access to the private student repository. The expected repository name is `cp2-feature-branch-pr-workflow`.
 
 ## Deployment
 
