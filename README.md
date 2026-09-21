@@ -6,7 +6,7 @@ A navigation hub for the KLIS-CS GitHub Foundations skills quiz and checkpoint s
 
 [**Open the Developer Achievement Dashboard →**](https://klis-cs.github.io/GitHub-Foundations/)
 
-Trusted CP1–CP5 grader evidence is converted into skill XP and badges. The public profile shows verified achievements and progress, **not academic grades**.
+Trusted checkpoint grader evidence is converted into skill XP and badges. The public profile shows verified achievements and progress, **not academic grades**.
 
 ```text
 checkpoint evidence → verified completion → XP → badges → Developer Profile
@@ -18,9 +18,8 @@ checkpoint evidence → verified completion → XP → badges → Developer Prof
 |---|---|---|
 | **Skills Quiz 0** | Markdown Foundations | [GitHub-Markdown-Skills-Quiz](https://github.com/KLIS-CS/GitHub-Markdown-Skills-Quiz) |
 | **CP1** | Repository Setup | [GitHub-Repository-Setup](https://github.com/KLIS-CS/GitHub-Repository-Setup) |
-| **CP2** | Feature Branch → PR → Review → Merge | [GitHub-Feature-Branch-Pull-Request-Workflow](https://github.com/KLIS-CS/GitHub-Feature-Branch-Pull-Request-Workflow) |
+| **CP2** | Feature Branch → Pull Request | [GitHub-Feature-Branch-Pull-Request-Workflow](https://github.com/KLIS-CS/GitHub-Feature-Branch-Pull-Request-Workflow) |
 | **CP3** | Issues + Kanban Project Management | [GitHub-Issues-Projects-Workflow](https://github.com/KLIS-CS/GitHub-Issues-Projects-Workflow) |
-| **CP4** | Local ↔ Remote Mental Model | [KLIS-CS-Git-Local-Remote-Workflow](https://github.com/KLIS-CS/KLIS-CS-Git-Local-Remote-Workflow) |
 | **CP5** | Final Integrated Workflow from Scratch | [GitHub-Final-Integrated-Challenge](https://github.com/KLIS-CS/GitHub-Final-Integrated-Challenge) |
 
 ## Learning Progression
@@ -28,10 +27,9 @@ checkpoint evidence → verified completion → XP → badges → Developer Prof
 ```mermaid
 flowchart LR
     SQ0["Skills Quiz 0 — Markdown\nWrite GitHub Markdown"] --> CP1["CP1 — Build\nREADME + .gitignore + LICENSE"]
-    CP1 --> CP2["CP2 — Change Safely\nBranch → PR → Review → Merge"]
+    CP1 --> CP2["CP2 — Change Safely\nBranch → Pull Request"]
     CP2 --> CP3["CP3 — Manage Work\nIssue + Kanban + PR tracking"]
-    CP3 --> CP4["CP4 — Understand Git\nLocal ↔ origin ↔ remote"]
-    CP4 --> CP5["CP5 — Integrate\nCreate → Manage → Review → Merge → Debug"]
+    CP3 --> CP5["CP5 — Integrate\nCreate → Manage → Review → Merge → Debug"]
 ```
 
 The checkpoints deliberately add one major layer at a time.
@@ -40,14 +38,13 @@ The checkpoints deliberately add one major layer at a time.
 |---|---|
 | **Skills Quiz 0 — Markdown** | Can you write the Markdown syntax used throughout GitHub without a walkthrough? |
 | **CP1 — Repository Setup** | Can you complete a clean repository with a useful README, meaningful .gitignore, and real LICENSE? |
-| **CP2 — Branch & PR Workflow** | Can you implement work on a feature branch, open a PR, receive review, and merge only after approval? |
+| **CP2 — Branch & PR Workflow** | Can you implement work on a feature branch and open a Pull Request into `main` without developing directly on `main`? |
 | **CP3 — Issues & Projects** | Can you represent work as an Issue and track both the Issue and PR through a Kanban workflow? |
-| **CP4 — Local ↔ Remote** | Do you understand local state, `origin`, remote-tracking state, `clone`, `push`, `fetch`, and `pull`? |
 | **CP5 — Final Integrated Challenge** | Can you independently create a repository from scratch and combine setup, Issue/Project management, Git, PR review/merge, and debugging? |
 
 ## Recommended Order
 
-**Skills Quiz 0 → CP1 → CP2 → CP3 → CP4 → CP5**
+**Skills Quiz 0 → CP1 → CP2 → CP3 → CP5 (Final Integrated Challenge)**
 
 The sequence is:
 
@@ -56,15 +53,14 @@ Write
 → Build
 → Change Safely
 → Manage Work
-→ Understand the System
 → Integrate Independently
 ```
 
 ## Shared Grading Architecture
 
-### CP1–CP4
+### CP1–CP3
 
-CP1–CP4 use the same student/teacher pattern:
+CP1–CP3 use the same student/teacher pattern:
 
 ```text
 student repository
@@ -78,7 +74,7 @@ student repository
 
 Students do **not** manually run Actions. Repository events trigger grading automatically.
 
-For this no-secret synchronization design, CP1–CP4 student repositories must remain **Public**.
+For this no-secret synchronization design, CP1–CP3 student repositories must remain **Public**.
 
 ### CP5
 
@@ -134,7 +130,7 @@ Copy Exercise
 
 CP1 does **not** use a feature branch or Pull Request. That separation is intentional: CP1 isolates repository-setup decisions before CP2 introduces branch collaboration.
 
-### CP2 — Feature Branch, Pull Request, Review & Merge
+### CP2 — Feature Branch & Pull Request
 
 [![Copy CP2 Exercise](https://img.shields.io/badge/COPY%20CP2%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=GitHub-Feature-Branch-Pull-Request-Workflow&owner=%40me&name=cp2-feature-branch-pr-workflow&description=Checkpoint+2:+Feature+Branch+%26+Pull+Request+Workflow&visibility=public)
 
@@ -145,16 +141,13 @@ Copy Exercise
 → edit feature.txt + submission.md
 → status → add → commit → push
 → open PR to main
-→ request review
-→ receive human APPROVED review
-→ merge
 → automatic /60
 → Submit CP2
 → teacher /40
 → Final /100 syncs back
 ```
 
-The grader checks that approval happened **before** merge. The feature branch may be deleted after merge because PR history remains durable evidence.
+The grader checks the feature branch, commit evidence, allowed file changes, completed `submission.md`, and the Pull Request into `main`.
 
 ### CP3 — Issues & Project Management
 
@@ -181,25 +174,6 @@ Copy Exercise
 
 The grader checks GitHub review/merge evidence automatically. Project-board quality and workflow history remain teacher-reviewed.
 
-### CP4 — Local ↔ Remote Mental Model
-
-[![Copy CP4 Exercise](https://img.shields.io/badge/COPY%20CP4%20EXERCISE-%E2%86%92-1f883d?style=for-the-badge&logo=github)](https://github.com/new?template_owner=KLIS-CS&template_name=KLIS-CS-Git-Local-Remote-Workflow&owner=%40me&name=cp4-local-remote-workflow&description=Checkpoint+4:+Local+and+Remote+Git+Workflow&visibility=public)
-
-```text
-Copy Exercise
-→ clone locally
-→ inspect git status
-→ inspect git branch -vv
-→ inspect git remote -v
-→ create cp4-USERNAME
-→ explain clone / init / origin / push / fetch / pull
-→ commit → push → PR
-→ receive human APPROVED review
-→ merge
-→ Submit CP4
-```
-
-CP4 tests whether students understand repository state and data flow rather than merely memorizing commands. In particular, students must distinguish **fetch** from **pull**.
 
 ### CP5 — Final Integrated Challenge
 
@@ -237,7 +211,7 @@ CP5 requires students to integrate the previous checkpoints without copying an e
 
 **Skills Quiz 0** is **100% automatically graded**.
 
-**CP1–CP5** use:
+**CP1–CP3 and CP5** use:
 
 ```text
 60 points — automatic evidence
@@ -249,7 +223,6 @@ CP5 requires students to integrate the previous checkpoints without copying an e
 
 - **Skills Quiz 0:** Markdown-only template exercise; direct edit/commit; automatic score.
 - **CP1:** Public template; repository setup on `main`; no PR.
-- **CP2:** Public template; feature branch → PR → human approval → merge.
+- **CP2:** Public template; feature branch → Pull Request; no merge requirement.
 - **CP3:** Public template; Issue + four-status Kanban Project + PR tracking → review → merge → Done.
-- **CP4:** Public template; local/remote mental model + full reviewed PR lifecycle.
 - **CP5:** Student-created public repository from scratch; full integrated workflow; mother repository is the submission/grading portal.
