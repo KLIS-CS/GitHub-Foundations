@@ -29,7 +29,7 @@ flowchart LR
     SQ0["Skills Quiz 0 — Markdown\nWrite GitHub Markdown"] --> CP1["CP1 — Build\nREADME + .gitignore + LICENSE"]
     CP1 --> CP2["CP2 — Change Safely\nBranch → Pull Request"]
     CP2 --> CP3["CP3 — Manage Work\nIssue + Kanban + PR tracking"]
-    CP3 --> CP5["CP5 — Integrate\nCreate → Manage → Review → Merge → Debug"]
+    CP3 --> CP5["CP5 — Integrate\nCreate → Manage → Self-check → Merge → Debug"]
 ```
 
 The checkpoints deliberately add one major layer at a time.
@@ -40,7 +40,7 @@ The checkpoints deliberately add one major layer at a time.
 | **CP1 — Repository Setup** | Can you complete a clean repository with a useful README, meaningful .gitignore, and real LICENSE? |
 | **CP2 — Branch & PR Workflow** | Can you implement work on a feature branch and open a Pull Request into `main` without developing directly on `main`? |
 | **CP3 — Issues & Projects** | Can you represent work as an Issue and track both the Issue and PR through a Kanban workflow? |
-| **CP5 — Final Integrated Challenge** | Can you independently create a repository from scratch and combine setup, Issue/Project management, Git, PR review/merge, and debugging? |
+| **CP5 — Final Integrated Challenge** | Can you independently create a repository from scratch and combine setup, Issue/Project management, Git, PR self-check/merge, and debugging? |
 
 ## Recommended Order
 
@@ -165,14 +165,14 @@ Copy Exercise
 → open PR
 → add PR to the same Project
 → Issue + PR → Review
-→ receive human APPROVED review
+→ leave a self-check message in the PR
 → merge
 → Issue + PR → Done
 → close Issue after merge
 → Submit CP3
 ```
 
-The grader checks GitHub review/merge evidence automatically. Project-board quality and workflow history remain teacher-reviewed.
+The grader checks the student's pre-merge self-check message and merge evidence automatically. Project-board quality and workflow history remain teacher-reviewed.
 
 
 ### CP5 — Final Integrated Challenge
@@ -224,5 +224,5 @@ CP5 requires students to integrate the previous checkpoints without copying an e
 - **Skills Quiz 0:** Markdown-only template exercise; direct edit/commit; automatic score.
 - **CP1:** Public template; repository setup on `main`; no PR.
 - **CP2:** Public template; feature branch → Pull Request; no merge requirement.
-- **CP3:** Public template; Issue + four-status Kanban Project + PR tracking → review → merge → Done.
+- **CP3:** Public template; Issue + four-status Kanban Project + PR tracking → self-check message → merge → Done.
 - **CP5:** Student-created public repository from scratch; full integrated workflow; mother repository is the submission/grading portal.
