@@ -194,7 +194,7 @@ Open CP5 instructions
 → open PR to main with Closes #Issue
 → add PR to same Project
 → Issue + PR → Review
-→ receive human APPROVED review
+→ leave a self-check message in the PR
 → merge
 → Issue closes
 → Issue + PR → Done
