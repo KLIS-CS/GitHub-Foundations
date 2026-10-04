@@ -140,7 +140,8 @@ function renderStudentList(data, rules) {
         </div>
       </div>
 
-      <div class="directory-head">
+      ${unlockGuide(data, rules)}
+
       <div class="directory-head">
         <div>
           <p class="section-eyebrow">Student directory</p>
