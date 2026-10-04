@@ -270,6 +270,7 @@ def main() -> int:
                 "id": cp["id"],
                 "label": cp["label"],
                 "verification_requirement": "60/60 automatic evidence",
+                "xp": cp.get("xp", {}),
             }
             for cp in checkpoints
         ],
