@@ -56,6 +56,41 @@ function checkpointMap(student) {
   return map;
 }
 
+function xpContribution(cp, rules) {
+  const entries = Object.entries(cp.xp || {});
+  if (!entries.length) return 'No XP configured';
+  return entries.map(([skill, xp]) => '+' + xp + ' ' + (rules.skills?.[skill]?.label || skill) + ' XP').join(' · ');
+}
+
+function unlockGuide(data, rules) {
+  const checkpointRows = (data.checkpoints || []).map((cp, index) =>
+    '<div class="evidence-row">' +
+      '<div class="evidence-index">' + (index + 1) + '</div>' +
+      '<div class="evidence-copy"><strong>' + esc(cp.id.toUpperCase()) + ' · ' + esc(cp.label) + '</strong>' +
+      '<span>' + esc(xpContribution(cp, rules)) + '</span></div>' +
+      '<div class="evidence-mark">→</div>' +
+    '</div>'
+  ).join('');
+
+  const badgeRows = Object.entries(rules.skills || {}).map(([skill, definition]) =>
+    '<div class="evidence-row">' +
+      '<div class="evidence-index">★</div>' +
+      '<div class="evidence-copy"><strong>' + esc(definition.label) + '</strong>' +
+      '<span>' + esc((definition.badges || []).map((badge) => badge.name + ': ' + badge.xp + ' XP').join(' · ')) + '</span></div>' +
+      '<div class="evidence-mark">✓</div>' +
+    '</div>'
+  ).join('');
+
+  return '<div class="directory-head"><div>' +
+    '<p class="section-eyebrow">How to unlock achievements</p>' +
+    '<h2>What lights up when you complete a checkpoint?</h2>' +
+    '<p>Complete a checkpoint, choose <strong>Submit for Assessment</strong>, and reach <strong>60/60 automatic evidence</strong>. The checkpoint becomes Verified and awards the XP shown below.</p>' +
+    '<div class="evidence-list">' + checkpointRows + '</div>' +
+    '<p><strong>Badges light up automatically when your skill XP reaches a badge threshold.</strong></p>' +
+    '<div class="evidence-list">' + badgeRows + '</div>' +
+    '</div></div>';
+}
+
 function checkpointTrack(student, checkpoints) {
   const states = checkpointMap(student);
   return `
