@@ -260,7 +260,19 @@ def main() -> int:
     output = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "privacy_note": "Public profiles contain achievements only; checkpoint grades are not published by this dashboard.",
-        "checkpoints": [{"id": cp["id"], "label": cp["label"]} for cp in checkpoints],
+        "assessment_policy": {
+            "official_trigger": "Submit for Assessment",
+            "practice_rule": "Work that is not submitted for assessment remains practice.",
+            "verification_requirement": "60/60 automatic evidence",
+        },
+        "checkpoints": [
+            {
+                "id": cp["id"],
+                "label": cp["label"],
+                "verification_requirement": "60/60 automatic evidence",
+            }
+            for cp in checkpoints
+        ],
         "students": profiles,
     }
 
