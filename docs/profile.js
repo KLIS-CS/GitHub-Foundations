@@ -108,7 +108,7 @@ function renderProfile(student, data, rules) {
         <div class="evidence-index">${index + 1}</div>
         <div class="evidence-copy">
           <strong>${esc(cp.id.toUpperCase())} · ${esc(cp.label)}</strong>
-          <span>${esc(label)}</span>
+          <span>${esc(label)} · Requirement: ${esc(cp.verification_requirement || "60/60 automatic evidence")}</span>
         </div>
         <div class="evidence-mark">${state === 'verified' ? '✓' : state === 'progressing' ? '•' : '—'}</div>
       </div>`;
@@ -139,6 +139,14 @@ function renderProfile(student, data, rules) {
           <p>Achievements are generated from verified GitHub learning evidence such as completed checkpoints and professional development workflows. Formal course grades are not shown here.</p>
         </div>
         <button class="share-button" id="share-profile" type="button">Copy family link</button>
+      </section>
+
+      <section class="family-note">
+        <div>
+          <strong>Practice vs Official Assessment</strong>
+          <p><strong>Practice:</strong> students may continue working in the same repository without submitting it for assessment. Those commits, branches, and pull requests remain practice.</p>
+          <p><strong>Official Quiz / Checkpoint:</strong> the student uses <strong>Submit for Assessment</strong>. Only that submitted attempt enters the grader and can become Verified. Verification requires <strong>60/60 automatic evidence</strong>.</p>
+        </div>
       </section>
 
       <div class="profile-layout">
