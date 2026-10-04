@@ -97,6 +97,17 @@ function renderStudentList(data, rules) {
     <section class="directory-panel">
       <div class="directory-head">
         <div>
+          <p class="section-eyebrow">Assessment rule</p>
+          <h2>Practice vs Official Assessment</h2>
+          <p><strong>Practice:</strong> keep working in the same repository, make commits, branches, and pull requests, but do not use <strong>Submit for Assessment</strong>.</p>
+          <p><strong>Official Quiz / Checkpoint:</strong> use <strong>Submit for Assessment</strong>. Only that submitted attempt enters the grader and can become Verified.</p>
+          <p>Checkpoint verification requires <strong>60/60 automatic evidence</strong>. Formal course grades remain separate.</p>
+        </div>
+      </div>
+
+      <div class="directory-head">
+      <div class="directory-head">
+        <div>
           <p class="section-eyebrow">Student directory</p>
           <h2>Developer Profiles</h2>
           <p>Real names are linked to GitHub accounts through the class roster.</p>
@@ -217,7 +228,7 @@ function renderProfile(student, data, rules) {
         <div class="evidence-index">${index + 1}</div>
         <div class="evidence-copy">
           <strong>${esc(cp.id.toUpperCase())} · ${esc(cp.label)}</strong>
-          <span>${esc(label)}</span>
+          <span>${esc(label)} · Requirement: ${esc(cp.verification_requirement || "60/60 automatic evidence")}</span>
         </div>
         <div class="evidence-mark">${state === 'verified' ? '✓' : state === 'progressing' ? '•' : '—'}</div>
       </div>`;
