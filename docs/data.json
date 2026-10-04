@@ -156,5 +156,11 @@
         }
       ]
     }
-  ]
+  ],
+  "assessment_policy": {
+    "official_trigger": "Submit for Assessment",
+    "practice_rule": "Work that is not submitted for assessment remains practice.",
+    "verification_requirement": "60/60 automatic evidence"
+  },
+  "checkpoints": []
 }
